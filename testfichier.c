@@ -16,20 +16,15 @@ int main(int argc, char *argv[])
 
 
   fichier = fopen("jeu.txt", "r");
-  for ( k=0; k<28; k++ ) 
-  {
-    printf("1+ ");
-    fgetc(fichier);
-  }
+
   i = compteligne(fichier,i);
   fseek(fichier,k,SEEK_SET);
   j = comptecol(fichier,j);
   fseek(fichier,0,SEEK_SET);
-  printf("\n%d %d\n",i,j);
+  printf("%d %d\n",i,j);
   int niveau[i][j];
   int lig = 0;
   int col = 0;
-
 
   while (continuer)
   {
@@ -50,6 +45,7 @@ int main(int argc, char *argv[])
     fseek(fichier,-1,SEEK_CUR);
   }
   fclose(fichier);
+
 
   return 0;
 }

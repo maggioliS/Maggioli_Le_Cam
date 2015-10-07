@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include "fonctioncompte.h"
+
 int compteligne(FILE*fichier, int i) 
 {
- 
   int caract = fgetc(fichier);
   while ( caract != 10 & fgetc(fichier) != 10) 
   {
@@ -10,11 +10,9 @@ int compteligne(FILE*fichier, int i)
     while ( caract != 10 ) 
     {
       caract = fgetc(fichier);
-      printf("OUI  ");
     }
     if ( caract == 10 ) 
     {
-      printf("NON  ");
       i = i + 1;
       caract = fgetc(fichier);
     }
@@ -27,6 +25,7 @@ int comptecol(FILE*fichier, int j)
 {
   int mem = 0;
   int caract = fgetc(fichier);
+
   while ( caract != 10 & fgetc(fichier) != 10) 
   {
     fseek(fichier,-1,SEEK_CUR);
@@ -35,7 +34,6 @@ int comptecol(FILE*fichier, int j)
     {
       j = j + 1;
       caract = fgetc(fichier);
-      printf("OUI  ");
     }
     if ( caract == 10 ) 
     {
@@ -44,7 +42,6 @@ int comptecol(FILE*fichier, int j)
         mem = j;
       }
       j = 0;
-      printf("NON  ");
       caract = fgetc(fichier);
     }
   }
