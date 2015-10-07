@@ -1,51 +1,49 @@
 #include <stdio.h>
 #include <stdbool.h>
-#include "fonctioncompte.h"
 
 
 
 int main(int argc, char *argv[])
 {
-  int i = 0;
-  int j = 0;
-  int k = 0;
   bool continuer = true;
   FILE* fichier = NULL;
   int caractereActuel = 0;
   long pos = 0;
 
-
   fichier = fopen("jeu.txt", "r");
-
-  i = compteligne(fichier,i);
-  fseek(fichier,k,SEEK_SET);
-  j = comptecol(fichier,j);
   fseek(fichier,0,SEEK_SET);
-  printf("%d %d\n",i,j);
-  int niveau[i][j];
+  int niveau[50][50] = {0};
   int lig = 0;
   int col = 0;
 
-  while (continuer)
-  {
-    caractereActuel = fgetc(fichier); 
-    niveau[lig][col] = caractereActuel;
+  while (continuer == true)
+  { 
     caractereActuel = fgetc(fichier);
-    if (niveau[lig][col] == 10 &  caractereActuel == 10 )
+    niveau[lig][col] = caractereActuel;
+    printf("%c", niveau[lig][col]);
+    caractereActuel = fgetc(fichier);
+    if (niveau[lig][col] == '\n' & caractereActuel == '\n' )
     {
       continuer = false;
     }   
-    printf("%c", niveau[lig][col]); 
-    i++;
-    if (niveau[lig-1][col] == 10 & caractereActuel != 10)
+    else 
     {
-      col++;
-      lig=0;
+     if  (niveau[lig][col] != '\n' & caractereActuel == '\n')
+      {
+        lig++;
+        col=0;
+      }
+      else
+      { 
+        if (niveau[lig][col] != 10 & caractereActuel != 10)
+        {
+          col++; 
+        }
+      }         
     }
     fseek(fichier,-1,SEEK_CUR);
   }
   fclose(fichier);
-
 
   return 0;
 }
