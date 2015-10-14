@@ -7,18 +7,19 @@ int **rempliTab(FILE *fichier) {
   int l = 10 ;
   int c = 10 ;
   int i;
-  int **niveau = (int**)malloc(l * c * sizeof(int*));
-  for (i = 0; i < l; i++) 
-  {
-    niveau[i] = (int*)malloc(l * sizeof(int));
-  }
-printf("PASSE 1\n");
   int cara ;
   int cara2;
   int lig = 0;
   int col = 0;
   bool continuer = true;
-printf("PASSE 2\n");
+
+  int **niveau = (int**)malloc(l * c * sizeof(int*));
+  for (i = 0; i < l; i++) 
+  {
+    niveau[i] = (int*)malloc(l * sizeof(int));
+  }
+
+printf("PASSE 1 \n");
   while (continuer) 
   {
     cara = fgetc(fichier);
@@ -46,6 +47,6 @@ printf("PASSE 2\n");
     }
     fseek(fichier,-1,SEEK_CUR);
   }
-printf("PASSE 3\n");
+printf("PASSE 2\n");
   return niveau;
 }

@@ -33,7 +33,7 @@ LIBS = -lSDL_ttf -lm
 
 # define the C source files
 # TODO: update and complete the following line with your .c files names
-SRCS = testfichier.c piece.c remplir_tab.c
+SRCS = main.c piece.c remplir_tab.c
 
 # define the C object files 
 #
