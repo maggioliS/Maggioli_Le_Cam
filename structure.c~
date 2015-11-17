@@ -5,6 +5,20 @@
 #include <SDL.h>
 #include "structure.h"
 
+liste l_vide ( void );
+liste cons(piece** tab,liste L);
+bool is_empty (liste L);
+piece ** first( liste L);
+liste rest ( liste L );
+piece ** createlvl(FILE* F,piece** tab);
+int comptehauteur (FILE *F);
+piece** allocation(FILE *F);
+void affichage ( piece** lvl,SDL_Surface *screen , SDL_Surface *cube) ;
+liste create_list_piece(FILE *F);
+void affichage ( piece** lvl ,SDL_Surface *screen, SDL_Surface *cube) ;
+liste create_piece(liste L,FILE *F);
+
+
 liste l_vide ( void )
 {
   return NULL ;
@@ -16,7 +30,6 @@ liste cons(piece** tab,liste L)
   M = malloc (sizeof(*M));
   M->elem=tab;
   M->next = L ;
-  M->head = L ;
   return M ;
 }
 
@@ -75,8 +88,10 @@ piece **createlvl(FILE* F,piece** tab)
     {
       tab[tmp][j].hauteur=hauteur;
       tab[tmp][j].carac=carac;
-      tab[tmp][j].pos.x=j*32;      
-      tab[tmp][j].pos.y=tmp*24;      
+      tab[tmp][j].pos.x=j*32;
+      printf("x: %d --- ",tab[tmp][j].pos.x);
+      tab[tmp][j].pos.y=tmp*24;
+      printf("y: %d --- ",tab[tmp][j].pos.y);
       tab[tmp][j].posbmp.x=0;
       tab[tmp][j].posbmp.y=0;
       tab[tmp][j].couvert=0;
@@ -86,7 +101,8 @@ piece **createlvl(FILE* F,piece** tab)
       }
       if (carac == 32 ) {
         tab[tmp][j].type=32;
-      }           
+      }      
+      printf("type: %d \n",tab[tmp][j].type);
       j=j+1;
       carac = chaine[j] ;
       if (carac== 10){
@@ -96,6 +112,7 @@ piece **createlvl(FILE* F,piece** tab)
     fgets(chaine,30,F);
     j=0;
   }
+
   return tab ;
 }
 
@@ -133,12 +150,12 @@ void affichage ( piece** lvl ,SDL_Surface *screen, SDL_Surface *cube)
       if (lvl[i][j].type==35){
         SDL_BlitSurface(cube,NULL,screen,&lvl[i][j].pos);
       }
+      printf("je passe : %d\n",i);
       j=j+1;
     }
   j=0;
   }
 }
-
 liste create_piece(liste L,FILE *F)
 {
   piece** tab ;
@@ -147,13 +164,14 @@ liste create_piece(liste L,FILE *F)
   fseek(F,position,SEEK_SET);
   tab=createlvl(F,tab);
   L=cons(tab,L);
+  
   return L;
 }
-
 liste create_list_piece(FILE *F)
 {
   liste L;
   L=l_vide();
+
   int caractereActuel;
   caractereActuel=fgetc(F);
   fseek(F,-1,SEEK_CUR);
@@ -165,13 +183,13 @@ liste create_list_piece(FILE *F)
   }
   return L;
 }
-
 int longueurmax(piece** P)
 {
   int L=0;
   int hauteur = P[0][0].hauteur ;
   int i=0;
   int j=0;
+
   for (i=0;i<hauteur;i++)
   {
     while (P[i][j].type != 10)
@@ -186,7 +204,6 @@ int longueurmax(piece** P)
   } 
   return L;
 }
-
 liste place_piece(liste L,piece** lvl)
 {
   liste Lcopy ;
@@ -230,51 +247,8 @@ liste place_piece(liste L,piece** lvl)
       if (hauteurmax < L->elem[0][0].hauteur){
         hauteurmax=L->elem[0][0].hauteur ;
       }
-    } 
+    }
+    
   }  
   return Lcopy;
 }
-
-void affichage_liste ( liste objet ,SDL_Surface *screen, SDL_Surface *pie) 
-{    
-  int continuer=1;
-  while ( continuer==1)
-  {
-    affichage (objet->elem,screen,pie);
-    if(is_empty(rest(objet))){
-      continuer=0;
-    }else{
-      objet=rest(objet);
-    }
-  }
-}
-
-void verif_fichier(FILE *F)
-{
-  int caractereActuel=fgetc(F);
-  while (caractereActuel!=EOF)
-  {
-    if (caractereActuel!=10){
-      if (caractereActuel!=35){
-        if (caractereActuel!=32){
-          printf("erreur veuillez remplir le fichier uniquement avec des ### .\n");
-          exit(0);
-        }
-      }
-    }
-    caractereActuel = fgetc(F);
-  }
-  fseek(F,0,SEEK_SET);
-}
-
-void free_list (liste L)
-{
-  if (is_empty (L))
-    {
-      return ;
-    }
-  free_list (rest (L)) ;
-  free(L->elem);
-  free(L);
-}
-

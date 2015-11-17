@@ -12,7 +12,7 @@ typedef struct {
   int hauteur;
   int longueur;
   char carac;
-  int couvert;
+  bool couvert;
   int visible;
   char type;
 
@@ -21,7 +21,8 @@ typedef struct {
 struct Liste {
 
   piece** elem;
-  liste next;  
+  liste next;
+  liste head;  
 
 };
 
@@ -33,5 +34,14 @@ liste rest ( liste L );
 piece ** createlvl(FILE* F,piece** tab);
 int comptehauteur (FILE *F);
 piece** allocation(FILE *F);
+void affichage ( piece** lvl,SDL_Surface *screen , SDL_Surface *cube) ;
+liste create_list_piece(FILE *F);
+liste create_piece(liste L,FILE *F);
+int longueurmax(piece** P);
+liste place_piece(liste L,piece** lvl);
+void affichage_liste ( liste objet ,SDL_Surface *screen, SDL_Surface *pie);
+void verif_fichier(FILE *F);
+void free_list (liste L);
+
 
 #endif
